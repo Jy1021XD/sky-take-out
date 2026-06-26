@@ -50,14 +50,6 @@ public class EmployeeServiceImpl implements EmployeeService
         //设置员工状态
         employee.setStatus(StatusConstant.ENABLE);
 
-        //设置创建时间和最后修改时间
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-
-        //通过ThreadLocal设置创建人和最后修改人id
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
-
         //保存到数据库
         employeeMapper.save(employee);
     }
@@ -140,8 +132,6 @@ public class EmployeeServiceImpl implements EmployeeService
     {
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.update(employee);
     }
 }
