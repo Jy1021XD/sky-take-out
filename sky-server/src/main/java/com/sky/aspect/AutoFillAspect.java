@@ -52,15 +52,7 @@ public class AutoFillAspect
             return;
         }
         // 获取Employee类型的参数
-        Object entity = null;
-        for (Object arg : args)
-        {
-            if (arg instanceof Employee)
-            {
-                entity = arg;
-            }
-        }
-        if (entity == null) return;
+        Object entity = args[0];
 
         // 准备公共字段数据
         LocalDateTime now = LocalDateTime.now();
