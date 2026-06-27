@@ -119,6 +119,7 @@ public class DishServiceImpl implements DishService
 
     /**
      * 根据id查询菜品
+     *
      * @param id
      * @return
      */
@@ -135,5 +136,47 @@ public class DishServiceImpl implements DishService
         // 封装返回数据
         dishVO.setFlavors(flavors);
         return dishVO;
+    }
+
+    /**
+     * 修改菜品
+     *
+     * @param dishDTO
+     */
+    @Override
+    @Transactional
+    public void updateWithFlavor(DishDTO dishDTO)
+    {
+        Long dishId = dishDTO.getId();
+        // 菜品id不能为空
+        if (dishId == null)
+        {
+            throw new DeletionNotAllowedException(MessageConstant.DISH_NOT_FOUND);
+        }
+
+        // 查询菜品是否存在
+        Dish existingDish = dishMapper.selectById(dishId);
+        if (existingDish == null)
+        {
+            throw new DeletionNotAllowedException(MessageConstant.DISH_NOT_FOUND);
+        }
+
+        Dish dish = new Dish();
+        BeanUtils.copyProperties(dishDTO, dish);
+
+        // 修改菜品信息
+        dishMapper.update(dish);
+
+        // 处理口味：flavors为null表示不修改口味，空列表表示清空口味，非空列表表示替换口味
+        List<DishFlavor> flavors = dishDTO.getFlavors();
+        if (flavors != null)
+        {
+            dishFlavorMapper.deleteByDishId(dishId);
+            if (!flavors.isEmpty())
+            {
+                flavors.forEach(flavor -> flavor.setDishId(dishId));
+                dishFlavorMapper.insertBatch(flavors);
+            }
+        }
     }
 }
