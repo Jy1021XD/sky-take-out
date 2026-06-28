@@ -68,6 +68,20 @@ public class SetmealController
     }
 
     /**
+     * 修改套餐
+     * @param setmealDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改套餐")
+    public Result update(@RequestBody SetmealDTO setmealDTO)
+    {
+        log.info("修改套餐：{}", setmealDTO);
+        setmealService.updateWithDishes(setmealDTO);
+        return Result.success();
+    }
+
+    /**
      * 根据id查询套餐
      *
      * @param id
