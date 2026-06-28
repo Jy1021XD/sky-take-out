@@ -27,4 +27,8 @@
             #{id}
         </foreach>
     </select>
+    <select id="countDishStatusDisableBySetmealId" resultType="java.lang.Long">
+        select count(*) from setmeal_dish as sd left join dish as d on sd.dish_id = d.id
+        where sd.setmeal_id = #{id} and (d.status = 0 or d.status is null)
+    </select>
 </mapper>

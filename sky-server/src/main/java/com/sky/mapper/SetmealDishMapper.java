@@ -37,4 +37,11 @@ public interface SetmealDishMapper
      */
     @Select("select * from setmeal_dish where setmeal_id = #{setmealId}")
     List<SetmealDish> getBySetmealId(Long setmealId);
+
+    /**
+     * 根据套餐id查询套餐包含的菜品在停售状态的数量
+     * @param id
+     * @return
+     */
+    Long countDishStatusDisableBySetmealId(Long id);
 }

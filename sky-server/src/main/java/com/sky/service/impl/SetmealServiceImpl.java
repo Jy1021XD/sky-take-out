@@ -3,11 +3,13 @@ package com.sky.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
+import com.sky.constant.StatusConstant;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
 import com.sky.entity.SetmealDish;
 import com.sky.exception.DeletionNotAllowedException;
+import com.sky.exception.SetmealEnableFailedException;
 import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
@@ -124,6 +126,31 @@ public class SetmealServiceImpl implements SetmealService
         // 封装返回数据
         setmealVO.setSetmealDishes(setmealDishes);
         return setmealVO;
+    }
+
+    /**
+     * 更改套餐状态
+     * @param status
+     * @param id
+     */
+    @Override
+    public void updateStatus(Integer status, Long id)
+    {
+        // 如果操作位起售，需要检查套餐内是否有停售菜品
+        if(status == StatusConstant.ENABLE)
+        {
+            // 查询套餐包含的菜品中停售的数量
+            Long count = setmealDishMapper.countDishStatusDisableBySetmealId(id);
+            if(count > 0 && count != null)
+            {
+                throw new SetmealEnableFailedException(MessageConstant.SETMEAL_ENABLE_FAILED);
+            }
+        }
+        Setmeal setmeal = Setmeal.builder()
+                .id(id)
+                .status(status)
+                .build();
+        setmealMapper.update(setmeal);
     }
 
     /**
