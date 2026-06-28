@@ -45,7 +45,6 @@ public class DishController
 
     /**
      * 分页查询菜品
-     *
      * @param dishPageQueryDTO
      * @return
      */
@@ -60,7 +59,6 @@ public class DishController
 
     /**
      * 批量删除菜品
-     *
      * @param ids
      * @return
      */
@@ -75,7 +73,6 @@ public class DishController
 
     /**
      * 根据id查询菜品
-     *
      * @param id
      * @return
      */
@@ -90,7 +87,6 @@ public class DishController
 
     /**
      * 修改菜品
-     *
      * @param dishDTO
      */
     @PutMapping
