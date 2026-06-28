@@ -11,6 +11,10 @@
         values (#{name}, #{categoryId}, #{price}, #{status}, #{image}, #{description}, #{createTime}, #{updateTime},
                 #{createUser}, #{updateUser})
     </insert>
+    <delete id="deleteBatch">
+        delete from setmeal where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </delete>
     <select id="pageQuery" resultType="com.sky.vo.SetmealVO">
         select s.id,
                s.category_id,
@@ -24,10 +28,16 @@
         from setmeal as s
                  left join category as c on c.id = s.category_id
         <where>
-            <if test = "name != null and name == ''">and s.name like concat('%',#{name},'%')</if>
+            <if test = "name != null and name != ''">and s.name like concat('%',#{name},'%')</if>
             <if test = "categoryId != null">and s.category_id = #{categoryId}</if>
             <if test = "status != null">and s.status = #{status}</if>
         </where>
         order by s.create_time desc
+    </select>
+    <select id="countStatusEnableByIds" resultType="java.lang.Long">
+        select count(*)
+        from setmeal
+        where status = 1 and id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">#{id}</foreach>
     </select>
 </mapper>
