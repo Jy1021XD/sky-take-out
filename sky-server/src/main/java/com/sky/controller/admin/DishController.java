@@ -45,6 +45,7 @@ public class DishController
 
     /**
      * 分页查询菜品
+     *
      * @param dishPageQueryDTO
      * @return
      */
@@ -59,6 +60,7 @@ public class DishController
 
     /**
      * 批量删除菜品
+     *
      * @param ids
      * @return
      */
@@ -73,6 +75,7 @@ public class DishController
 
     /**
      * 根据id查询菜品
+     *
      * @param id
      * @return
      */
@@ -87,6 +90,7 @@ public class DishController
 
     /**
      * 修改菜品
+     *
      * @param dishDTO
      */
     @PutMapping
@@ -100,6 +104,7 @@ public class DishController
 
     /**
      * 根据菜品分类id查询菜品列表
+     *
      * @param categoryId
      * @return
      */
@@ -110,5 +115,20 @@ public class DishController
         log.info("根据菜品分类id查询菜品列表：{}", categoryId);
         List<Dish> dishList = dishService.list(categoryId);
         return Result.success(dishList);
+    }
+
+    /**
+     * 修改菜品状态
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("修改菜品状态")
+    public Result updateStatus(@PathVariable Integer status, @RequestParam Long id)
+    {
+        log.info("修改菜品状态：id：{}，status：{}", id, status);
+        dishService.updateStatus(status, id);
+        return Result.success();
     }
 }
