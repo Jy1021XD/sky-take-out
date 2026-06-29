@@ -10,3 +10,7 @@ sky:
     endpoint: oss-cn-beijing.aliyuncs.com
     bucket-name: sky-take-out-jyyxd
     region: cn-beijing
+  redis:
+    host: localhost
+    port: 6379
+    database: 10
