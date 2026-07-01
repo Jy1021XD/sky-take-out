@@ -31,20 +31,20 @@
     </delete>
     <select id="pageQuery" resultType="com.sky.vo.SetmealVO">
         select s.id,
-               s.category_id,
-               s.name,
-               s.price,
-               s.status,
-               s.description,
-               s.image,
-               s.update_time,
-               c.name as categoryName
+        s.category_id,
+        s.name,
+        s.price,
+        s.status,
+        s.description,
+        s.image,
+        s.update_time,
+        c.name as categoryName
         from setmeal as s
-                 left join category as c on c.id = s.category_id
+        left join category as c on c.id = s.category_id
         <where>
-            <if test = "name != null and name != ''">and s.name like concat('%',#{name},'%')</if>
-            <if test = "categoryId != null">and s.category_id = #{categoryId}</if>
-            <if test = "status != null">and s.status = #{status}</if>
+            <if test="name != null and name != ''">and s.name like concat('%',#{name},'%')</if>
+            <if test="categoryId != null">and s.category_id = #{categoryId}</if>
+            <if test="status != null">and s.status = #{status}</if>
         </where>
         order by s.create_time desc
     </select>
@@ -53,5 +53,14 @@
         from setmeal
         where status = 1 and id in
         <foreach collection="ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </select>
+
+    <select id="list" parameterType="Setmeal" resultType="Setmeal">
+        select * from setmeal
+        <where>
+            <if test="name != null">and name like concat('%',#{name},'%')</if>
+            <if test="categoryId != null">and category_id = #{categoryId}</if>
+            <if test="status != null">and status = #{status}</if>
+        </where>
     </select>
 </mapper>

@@ -24,7 +24,7 @@ public class ShopController
      * 获取店铺状态
      * @return
      */
-    @GetMapping
+    @GetMapping("status")
     @ApiOperation("获取店铺状态")
     public Result<Integer> getStatus()
     {
